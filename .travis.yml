@@ -1,0 +1,15 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t bernardobfg/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - - docker run -e CI=true bernardobfg/react-test npm test
+
+after_success:
+  - docker build -t bernardobfg/multi-client ./client
+  - docker run -t bernardobfg/multi-nginx ./nginx
+  - docker run -t bernardobfg/multi-server ./server
+  - docker run -t bernardobfg/multi-worker ./worker
