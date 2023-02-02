@@ -13,3 +13,8 @@ after_success:
   - docker run -t bernardobfg/multi-nginx ./nginx
   - docker run -t bernardobfg/multi-server ./server
   - docker run -t bernardobfg/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push bernardobfg/multi-client
+  - docker push bernardobfg/multi-nginx
+  - docker push bernardobfg/multi-server
+  - docker push bernardobfg/multi-worker
